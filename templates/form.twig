@@ -1,6 +1,6 @@
-{% import "formelement.twig" as element %}
-
 {% macro create( form, errors = {} ) %}
+
+{% import "formelement.twig" as formelement %}
 
 {{ form_open( form.create ) }}
 
@@ -11,8 +11,6 @@
             {% endif %}
 
             <div class="col-md-9">
-                {{ element.create( row ) }}
-
                 {% if row.name in errors | keys %}
                     <span class="help-block errormsg">
                         {% if errors[ row.name ] is iterable %}
@@ -27,7 +25,7 @@
                         {% endif %}
                     </span>
                 {% endif %}
-
+                {{ formelement.create( row ) }}
                 {% if row.help %}
                     <small id="{{ row.name }}Help" class="form-text text-muted">{{ row.help | raw }}</small>
                 {% endif %}

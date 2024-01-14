@@ -1,24 +1,36 @@
 {% macro create( element ) -%}
+
+    {# checkboxes / radio buttons #}
     {% if element.type in ['checkbox', 'radio'] %}
         {% for item in element.options %}
             <label for="{{ element.name }}{{loop.index}}" class="form-check-label"{% for aname, aval in item.label_attributes | default( element.label_attributes | default({}) ) %} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %}><input class="form-check-input {{ item.class | default( element.class | default(null)) }}" type="{{ element.type }}" {{ element.required ? 'required' }} {{ element.autofocus ? 'autofocus' }} {{ element.disabled ? 'disabled' }} {% if (item.selected) or (item.value in request_data(element.name)) or (item.value == request_data(element.name)) %} checked{% endif %}  {{ element.checked ? 'checked' }}name="{{ element.name }}{% if element.type == 'checkbox' %}[]{% endif %}" id="{{ element.name }}{{loop.index}}" value="{{ item.value }}"{% for aname, aval in item.attributes | default( element.option_attributes | default({}) ) %} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %} /> {{ item.description | default(item.value) }}</label>
             {% if not loop.last %}<br/>{% endif %}
         {% endfor %}
+
+    {# textarea / big free text #}
     {% elseif element.type == 'textarea' %}
         <textarea id="{{ element.name }}" class="form-control {{ element.class }}" name="{{ element.name }}"{{ element.required ? 'required' }} {{ element.autofocus ? 'autofocus' }} {{ element.disabled ? 'disabled' }} {% if element.rows %} rows="{{ element.rows }}"{% endif %}{% if element.cols %} cols="{{ element.cols }}"{% endif %}{% if element.placeholder %} placeholder="{{element.placeholder}}"{% endif %}{% for aname, aval in element.attributes | default({}) %} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %}>{% if request_data(element.name) %}{{ request_data(element.name) }}{% else %}{{ element.value }}{% endif %}</textarea>
+
+    {# selection #}
     {% elseif element.type == 'select' %}
         <select id="{{ element.name }}" class="form-control {{ element.class }}"{% if element.required %} required{% endif %} {{ element.required ? 'required' }} {{ element.autofocus ? 'autofocus' }} {{ element.disabled ? 'disabled' }} {% if element.multiple %} multiple{% endif %} name="{{ element.name }}"{% for aname, aval in element.attributes | default({}) %} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %}>
             {% for item in element.options %}
                 <option id="{{ element.name }}{{loop.index}}"{{ item.disabled ? 'disabled' }}{% if (item.selected) or (item.value in request_data(element.name)) or (item.value == request_data(element.name)) %} selected{% endif %} value="{{ item.value }}"{% for aname, aval in item.attributes | default( element.option_attributes | default({}) ) %} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %}>{{ item.description | default(item.value) }}</option>
             {% endfor %}
         </select>
+
+    {# regular INPUT tag #}
     {% else %}
         <input id="{{ element.name }}"{% if element.type == "datalist" %} list="{{ element.name }}s"{% endif %} class="{% if element.readonly and element.plaintext %}form-control-plaintext{% else %}form-control{% endif %} {{ element.class }}" {% if element.readonly %}readonly{% endif %} type="{{ element.type | default('text') }}" class="form-control" name="{{ element.name }}" {{ element.required ? 'required' }} {{ element.autofocus ? 'autofocus' }} {{ element.disabled ? 'disabled' }} {% if element.placeholder and not element.disabled %} placeholder="{{element.placeholder}}"{% endif %} value="{% if request_data(element.name) %}{{ request_data(element.name) }}{% else %}{{ element.value }}{% endif %}"{% for aname, aval in element.attributes | default({}) %} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %} />{% if element.type == "datalist" %}
+
+        {# INPUT tag with datalist #}
         <datalist id="{{ element.name }}s">
             {% for item in element.options %}
                 <option id="{{ element.name }}{{loop.index}}"{{ item.disabled ? 'disabled' }} value="{{ item.value }}"{% for aname, aval in item.attributes | default( element.option_attributes | default({}) ) %} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %} />
             {% endfor %}
         </datalist>
         {%- endif -%}
+
     {% endif %}
+
 {%- endmacro %}

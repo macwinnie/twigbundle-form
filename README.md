@@ -10,6 +10,56 @@ As always, a template is using a dedicated data structure to be transferred into
 
 ### Form
 
-The `form` macro is using a Bootstrap-DIV-based layout and can be adapted easily.
+The `form` macro is using a Bootstrap-DIV-based layout and can be adapted easily. To use it, you'll want to require the `\macwinnie\TwigbundleForm\FormExtension` class as Twig extension:
+
+```php
+
+```
 
 ### Form Element
+
+By default, if none of the following options is selected, we'll get a `<input>` field rendered by this macro. If
+
+
+## Example usage
+
+This is an example of a Twig template on how to build forms and a single form element:
+
+```twig
+<h3>Form-Testing</h3>
+
+{% set form_data = {
+    "create":
+    {
+        "action": "/tests/helper/?"
+    },
+    "buttons":
+    [
+        {
+            "text": "submit",
+            "class": "btn btn-primary",
+            "name": "submitbutton",
+            "value": "submit_val"
+        }
+    ],
+    "rows":
+    [
+        {
+            "name": "text",
+            "placeholder": "ph text",
+            "type": "text",
+            "title": "single line textfield"
+        }
+    ]
+} %}
+
+{% import "form.twig" as forms %}
+{% import "formelement.twig" as formelement %}
+
+{{ forms.create( form_data ) }}
+
+<hr/>
+
+{{ formelement.create( form_data.rows[0] ) }}
+
+```

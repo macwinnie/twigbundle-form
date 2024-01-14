@@ -179,4 +179,54 @@ class FormExtension implements ExtensionInterface {
         // Return the defined functions;
         return $functions;
     }
+
+    /**
+     * Returns the token parser instances to add to the existing list.
+     * > Not used until now ...
+     *
+     * @return \Twig\TokenParser\TokenParserInterface[]
+     */
+    public function getTokenParsers() {
+        return [];
+    }
+
+    /**
+     * Returns the node visitor instances to add to the existing list.
+     * > Not used until now ...
+     *
+     * @return \Twig\NodeVisitor\NodeVisitorInterface[]
+     */
+    public function getNodeVisitors() {
+        return [];
+    }
+
+    /**
+     * Returns a list of filters to add to the existing list.
+     * > Not used until now ...
+     *
+     * @return \Twig\TwigFilter[]
+     */
+    public function getFilters() {
+        return [];
+    }
+
+    /**
+     * Returns a list of tests to add to the existing list.
+     * > Not used until now ...
+     *
+     * @return \Twig\TwigTest[]
+     */
+    public function getTests() {
+        return [];
+    }
+
+    /**
+     * Returns a list of operators to add to the existing list.
+     * > Not used until now ...
+     *
+     * @return array<array> First array of unary operators, second array of binary operators
+     */
+    public function getOperators() {
+        return [];
+    }
 }
