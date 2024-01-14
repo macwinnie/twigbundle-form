@@ -1,0 +1,55 @@
+{% import "formelement.twig" as element %}
+
+{% macro create( form, errors = {} ) %}
+
+{{ form_open( form.create ) }}
+
+    {% for row in form.rows %}
+        <div class="form-group row{% if row.name in errors | keys %} has-error{% endif %}" {{ row.hidden ? 'hidden' }}>
+            {% if (not row.noTitle) or row.noTitle != true %}
+                <label for="{{ row.name }}" class="col-md-3 col-form-label"{% for aname, aval in row.label_attributes | default({})%} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %}>{{ row.title | default(row.name) }}</label>
+            {% endif %}
+
+            <div class="col-md-9">
+                {{ element.create( row ) }}
+
+                {% if row.name in errors | keys %}
+                    <span class="help-block errormsg">
+                        {% if errors[ row.name ] is iterable %}
+                            <ul>
+                            {% for e in errors[ row.name ] %}
+                                <li><strong>{{ e }}</strong></li>
+                            {% endfor %}
+                            </ul>
+                        {% else %}
+                            {# users is probably a string #}
+                            <strong>{{ errors[ row.name ] }}</strong>
+                        {% endif %}
+                    </span>
+                {% endif %}
+
+                {% if row.help %}
+                    <small id="{{ row.name }}Help" class="form-text text-muted">{{ row.help | raw }}</small>
+                {% endif %}
+            </div>
+        </div>
+        {% if form.create.divideRows == true %}
+        <hr/>
+        {% endif %}
+    {% endfor %}
+    {% if form.buttons %}
+        {% for button in form.buttons %}
+            <button name="{{ button.name }}" value="{{ button.value }}" type="submit" class="{{ button.class }}" {{ button.hidden ? 'hidden' }}{% for aname, aval in button.attributes | default( form.button_attributes | default({})) %} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %}>{{ button.text }}</button>
+        {% endfor %}
+
+        {% if form.buttonAdditionals %}
+            {% for element in form.buttonAdditionals %}
+                &nbsp;{{ element | raw }}
+            {% endfor %}
+        {% endif %}
+    {% else %}
+        <input type="submit" name="{{ form.submit.name | default( 'submit' ) }}" value="{{ form.submit.value | default( 'submit' ) }}" class="{{ form.submit.class | default( 'btn btn-primary' ) }}"{% for aname, aval in form.submit.attributes | default({}) %} {{ aname }}="{{ aval | replace({'"': '&quote;'}) }}"{% endfor %} />
+    {% endif %}
+{{ form_close() }}
+
+{% endmacro %}

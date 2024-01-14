@@ -1,0 +1,21 @@
+{
+    "name": "macwinnie/twigbundle-form",
+    "description": "A Twig Bundle providing some helper templating for forms",
+    "version": "1.0.0",
+    "keywords": [
+        "twig",
+        "twig-bundle",
+        "composer",
+        "installer",
+        "bundle",
+        "form"
+    ],
+    "type": "twig-bundle",
+    "license": "MIT",
+    "minimum-stability": "stable",
+    "autoload": {
+        "psr-4" : {
+            "macwinnie\\TwigbundleForm\\" : "src/"
+        }
+    }
+}
