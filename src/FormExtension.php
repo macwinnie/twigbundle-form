@@ -159,7 +159,10 @@ class FormExtension implements ExtensionInterface {
          /* request_data */
         /***************/
         $functions[] = new \Twig\TwigFunction('request_data', function ( $name, $default = NULL, $method = NULL ) {
-            switch ( strtoupper( $method ) ) {
+            if ( $method != NULL ) {
+                $method = strtoupper( $method );
+            }
+            switch ( $method ) {
                 case 'GET':
                     $checkVar = $_GET;
                     break;
