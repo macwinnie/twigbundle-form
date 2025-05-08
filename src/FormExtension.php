@@ -230,6 +230,6 @@ class FormExtension implements ExtensionInterface {
      * @return array<array> First array of unary operators, second array of binary operators
      */
     public function getOperators() {
-        return [];
+        return [[],[]];
     }
 }
