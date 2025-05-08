@@ -1,7 +1,7 @@
 {
     "name": "macwinnie/twigbundle-form",
     "description": "A Twig Bundle providing some helper templating for forms",
-    "version": "1.0.3",
+    "version": "1.0.5",
     "keywords": [
         "twig",
         "twig-bundle",
